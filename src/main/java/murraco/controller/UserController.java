@@ -2,6 +2,7 @@ package murraco.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import murraco.dto.LoginRequestDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
@@ -41,10 +41,8 @@ public class UserController {
   @ApiResponses(value = {//
       @ApiResponse(code = 400, message = "Something went wrong"), //
       @ApiResponse(code = 422, message = "Invalid username/password supplied")})
-  public String login(//
-      @ApiParam("Username") @RequestParam String username, //
-      @ApiParam("Password") @RequestParam String password) {
-    return userService.signin(username, password);
+  public String login(@ApiParam(value = "The LoginRequest payload") @RequestBody LoginRequestDTO requestDTO) {
+    return userService.signin(requestDTO.getUsername(), requestDTO.getPassword());
   }
 
   @PostMapping("/signup")
